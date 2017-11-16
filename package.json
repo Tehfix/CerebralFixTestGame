@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "webpack -p --bail",
-    "start": "cd output && http-server -p 8080 --cors"
+    "start": "cd output && http-server -c-1 -p 8080 --cors"
   },
   "devDependencies": {
     "babel-core": "^6.24.0",
