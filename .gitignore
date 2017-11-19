@@ -1,4 +1,3 @@
 node_modules
-/output/breakout.js*
-/output/index.html
+/output/index.js*
 /npm-debug.log

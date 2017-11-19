@@ -1,21 +1,13 @@
 {
   "name": "coding_test",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
-    "build": "webpack -p --bail",
-    "start": "cd output && http-server -c-1 -p 8080 --cors"
+    "build": "tsc",
+    "start": "cd && http-server -c-1 -p 8080 --cors"
   },
   "devDependencies": {
-    "babel-core": "^6.24.0",
-    "babel-loader": "^6.4.1",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-es2015": "^6.24.0",
-    "html-webpack-plugin": "^2.28.0",
     "http-server": "^0.9.0",
     "phaser": "^2.6.2",
-    "transform-runtime": "0.0.0",
-    "ts-loader": "^2.0.3",
-    "typescript": "^2.2.1",
-    "webpack": "^1.13.1"
+    "typescript": "^2.6.1"
   }
 }

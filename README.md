@@ -58,7 +58,7 @@ npm run build
 npm start
 ```
 
-Visit [localhost:8080](http://localhost:8080) in your browser to view the output.
+Visit [localhost:8080/output/](http://localhost:8080/output/) in your browser to view the output.
 
 Leave the webserver running while you develop so you can test your changes. Rerun the build command to build, then hard-refresh the browser window.
 
