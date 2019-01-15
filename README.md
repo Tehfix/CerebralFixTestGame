@@ -64,7 +64,7 @@ Visit [localhost:8080/output/](http://localhost:8080/output/) in your browser to
 Leave the webserver running while you develop so you can test your changes. Rerun the build command to build, then hard-refresh the browser window.
 
 ## Next Steps ##
-After you have finished your submission, make sure the reviewers have read access to your repository. Our developers will review your submission and then invite you in for a discussion.
+After you have finished your submission, make sure the reviewers have read access to your repository, and send us an email to let us know. Our developers will review your submission and then invite you in for a discussion.
 
 ### Time Cap ###
 This test may take you some time, especially if you're unfamiliar with TypeScript and Phaser. Please, do not spend more than 6 hours on this task, even if you don't finish - we can discuss what you do manage to complete.
