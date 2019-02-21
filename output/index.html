@@ -1,11 +1,91 @@
 <html>
-	<head>
-		<style>
-			body {
-				margin: 0;
-			}
-		</style>
-		<script src="phaser.js"></script>
-		<script src="require.js" data-main="index" defer></script>
-	</head>
-</html>
+
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <script src="phaser.js"></script>
+    <script src="require.js" data-main="index" defer></script>
+</head>
+
+<body>
+    <script type="text/javascript">
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {
+            preload: preload,
+            create: create,
+            update: update
+        });
+
+        // load the assets
+        function preload() {
+            game.load.image('sky', 'assets/sky.png');
+            game.load.image('ground', 'assets/platform.png');
+            game.load.image('ball', 'assets/redBall.png');
+            game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+        }
+
+
+        function create() {
+
+            // init
+            var paddleMoveSpeed = 300;
+            var ballSpeedMod = 1;
+            var ballSpeedX = 350;
+            var ballSpeedY = 300; // the different x and y values mean the ball doesnt move in perfect diagonals
+
+            // enable the Arcade Physics system
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            // puts the sky sprite in there
+            // cos this is in first it'll be behind everything else
+            game.add.sprite(0, 0, 'sky');
+
+            // ceates an object in the middle of the game world with a ball sprite
+            ball = game.add.sprite(game.world.width / 2, game.world.height / 2, 'ball');
+
+            // this block adds physics info to the ball and starts it moving when the game starts
+            game.physics.arcade.enable(ball);
+            ball.body.bounce.x = 1;
+            ball.body.bounce.y = 1;
+            ball.body.velocity.x = ballSpeedX;
+            ball.body.velocity.y = ballSpeedY;
+            ball.body.collideWorldBounds = true;
+
+            // creates the paddle object and adds physics attributes to it
+            paddle = game.add.sprite(game.world.width / 2, game.world.height - 20, 'ground');
+            paddle.scale.setTo(0.5, 0.5);
+            game.physics.arcade.enable(paddle);
+            paddle.body.collideWorldBounds = true;
+            // this line stops it being affected by other physics interactions, without this the ball will push the paddle down through the bottom of the screen
+            paddle.body.immovable = true;
+
+
+            // creates basic key listeners for the arrow keys
+            cursors = game.input.keyboard.createCursorKeys();
+        }
+
+        function update() {
+
+            // the ball will now collide and bounce off the paddle
+            game.physics.arcade.collide(ball, paddle);
+
+            // moves the paddle if either left or right arrow keys are pressed
+            if (cursors.left.isDown && !cursors.right.isDown) {
+                //  Move to the left
+                paddle.body.velocity.x = -paddleMoveSpeed;
+            } else if (!cursors.left.isDown && cursors.right.isDown) {
+                //  Move to the right
+                paddle.body.velocity.x = paddleMoveSpeed;
+            } else {
+                // stops the paddle if nothing else causes it to move
+                paddle.body.velocity.x = 0;
+            }
+
+
+        }
+    </script>
+
+</body>
