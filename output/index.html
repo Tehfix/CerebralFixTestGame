@@ -31,7 +31,7 @@
         function create() {
 
             // init
-            var paddleMoveSpeed = 300;
+            //var paddleMoveSpeed = 300;
             var ballSpeedMod = 1;
             var ballSpeedX = 350;
             var ballSpeedY = 300; // the different x and y values mean the ball doesnt move in perfect diagonals
@@ -61,7 +61,7 @@
             paddle.body.collideWorldBounds = true;
             // this line stops it being affected by other physics interactions, without this the ball will push the paddle down through the bottom of the screen
             paddle.body.immovable = true;
-
+            paddle.moveSpeed = 300;
 
             // creates basic key listeners for the arrow keys
             cursors = game.input.keyboard.createCursorKeys();
@@ -75,10 +75,10 @@
             // moves the paddle if either left or right arrow keys are pressed
             if (cursors.left.isDown && !cursors.right.isDown) {
                 //  Move to the left
-                paddle.body.velocity.x = -paddleMoveSpeed;
+                paddle.body.velocity.x = -paddle.moveSpeed;
             } else if (!cursors.left.isDown && cursors.right.isDown) {
                 //  Move to the right
-                paddle.body.velocity.x = paddleMoveSpeed;
+                paddle.body.velocity.x = paddle.moveSpeed;
             } else {
                 // stops the paddle if nothing else causes it to move
                 paddle.body.velocity.x = 0;
