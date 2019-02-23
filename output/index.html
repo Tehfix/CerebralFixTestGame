@@ -37,13 +37,18 @@
             }
         }
 
-        function create() {
+        // init
+        //var paddleMoveSpeed = 300;
+        var ballSpeedMod = 1;
+        var ballSpeedX = 350;
+        var ballSpeedY = 300; // the different x and y values mean the ball doesnt move in perfect diagonals
+        var ball;
+        var paddle;
+        var bricks;
+        var brick;
 
-            // init
-            //var paddleMoveSpeed = 300;
-            var ballSpeedMod = 1;
-            var ballSpeedX = 350;
-            var ballSpeedY = 300; // the different x and y values mean the ball doesnt move in perfect diagonals
+
+        function create() {
 
             // enable the Arcade Physics system
             game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -67,10 +72,12 @@
             paddle = game.add.sprite(game.world.width / 2, game.world.height - 20, 'paddle');
             paddle.scale.setTo(0.5, 0.5);
             game.physics.arcade.enable(paddle);
-            paddle.body.collideWorldBounds = true;
+            //paddle.body.collideWorldBounds = true;
             // this line stops it being affected by other physics interactions, without this the ball will push the paddle down through the bottom of the screen
             paddle.body.immovable = true;
             paddle.moveSpeed = 300;
+            // changing the anchor changes where the engine defines the sprites center, default is top left which is not always useful
+            paddle.anchor.x = 0.5;
 
             // creates basic key listeners for the arrow keys
             cursors = game.input.keyboard.createCursorKeys();
@@ -94,17 +101,10 @@
             // the ball will now collide and bounce off bricks
             game.physics.arcade.collide(ball, bricks, breakBrick);
 
-            // moves the paddle if either left or right arrow keys are pressed
-            if (cursors.left.isDown && !cursors.right.isDown) {
-                //  Move to the left
-                paddle.body.velocity.x = -paddle.moveSpeed;
-            } else if (!cursors.left.isDown && cursors.right.isDown) {
-                //  Move to the right
-                paddle.body.velocity.x = paddle.moveSpeed;
-            } else {
-                // stops the paddle if nothing else causes it to move
-                paddle.body.velocity.x = 0;
-            }
+            // dont forget to change whether the paddle is affected by world boundries too
+            //paddleMoveKeyboard(); // move the paddle with the arrow keys
+            paddleMoveMouseExact(); // the paddles x location is the same as the cursors x
+            //paddleMoveToMouse(); // the paddle moves to the cursor using velocity rather than just being locked together
 
             // this function removes a brick that the ball touches and changes the score accordingly
             function breakBrick(ball, brick) {
@@ -114,7 +114,33 @@
                 // this is where the score changing code will either go or be activated
             }
 
+            function paddleMoveKeyboard() {
+                // moves the paddle if either left or right arrow keys are pressed
+                if (cursors.left.isDown && !cursors.right.isDown) {
+                    //  Move to the left
+                    paddle.body.velocity.x = -paddle.moveSpeed;
+                } else if (!cursors.left.isDown && cursors.right.isDown) {
+                    //  Move to the right
+                    paddle.body.velocity.x = paddle.moveSpeed;
+                } else {
+                    // stops the paddle if nothing else causes it to move
+                    paddle.body.velocity.x = 0;
+                }
+            }
 
+
+            function paddleMoveMouseExact() {
+                paddle.x = (game.input.mousePointer.x);
+            }
+
+            // the paddle moves to the cursor using velocity rather than just being locked together
+            // this means that things like colliding with the world edges works automatically, just usually not well
+            function paddleMoveToMouse() {
+                game.physics.arcade.moveToPointer(paddle, 400);
+                //if (Phaser.Rectangle.contains(sprite.body, game.input.x, game.input.y)) {
+                //    sprite.body.velocity.setTo(0, 0);
+                //}
+            }
 
         }
     </script>
