@@ -21,12 +21,21 @@
         // load the assets
         function preload() {
             game.load.image('sky', 'assets/sky.png');
-            game.load.image('ground', 'assets/platform.png');
+            game.load.image('paddle', 'assets/platform.png');
             game.load.image('ball', 'assets/redBall.png');
+            game.load.image('brick', 'assets/greenBrick.png');
 
 
         }
 
+        function makeRow(rowStart, rowOffset, rowHeight, numInRow) {
+            //use this function to make rows of bricks
+            for (var i = 0; i < numInRow; i++) {
+                brick = bricks.create(i * rowOffset + rowStart, rowHeight, 'brick');
+                brick.body.immovable = true;
+                brick.scale.setTo(0.7, 0.3);
+            }
+        }
 
         function create() {
 
@@ -55,7 +64,7 @@
             ball.body.collideWorldBounds = true;
 
             // creates the paddle object and adds physics attributes to it
-            paddle = game.add.sprite(game.world.width / 2, game.world.height - 20, 'ground');
+            paddle = game.add.sprite(game.world.width / 2, game.world.height - 20, 'paddle');
             paddle.scale.setTo(0.5, 0.5);
             game.physics.arcade.enable(paddle);
             paddle.body.collideWorldBounds = true;
@@ -65,12 +74,25 @@
 
             // creates basic key listeners for the arrow keys
             cursors = game.input.keyboard.createCursorKeys();
+
+            // creates a 'group' which means you can access all objects in the group with its name
+            bricks = game.add.group();
+            bricks.enableBody = true;
+
+
+            makeRow(80, 80, 70, 8);
+            makeRow(120, 80, 110, 7);
+            makeRow(80, 80, 150, 8);
+
         }
 
         function update() {
 
             // the ball will now collide and bounce off the paddle
             game.physics.arcade.collide(ball, paddle);
+
+            // the ball will now collide and bounce off bricks
+            game.physics.arcade.collide(ball, bricks, breakBrick);
 
             // moves the paddle if either left or right arrow keys are pressed
             if (cursors.left.isDown && !cursors.right.isDown) {
@@ -83,6 +105,15 @@
                 // stops the paddle if nothing else causes it to move
                 paddle.body.velocity.x = 0;
             }
+
+            // this function removes a brick that the ball touches and changes the score accordingly
+            function breakBrick(ball, brick) {
+                //removes the brick from the world
+                brick.kill();
+
+                // this is where the score changing code will either go or be activated
+            }
+
 
 
         }
